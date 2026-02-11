@@ -1,0 +1,56 @@
+----------------------------------------------------------------------
+           SALES TOTAL REPORT
+----------------------------------------------------------------------
+Qtty     Product                                  Price     
+----------------------------------------------------------------------
+200      Rustic breakfast                         21.32     
+23       Sandwich with salad                      22.48     
+11       Raw legums                               17.11     
+221      Fresh stawberry                          28.59     
+2        Raw legums                               17.11     
+400      Green smoothie                           17.68     
+2        Cuban sandwiche                          18.5      
+2        Hazelnut in black ceramic bowl           27.35     
+1        Tomatoes                                 26.03     
+250      Plums                                    19.18     
+334      Fresh blueberries                        21.01     
+300      Green smoothie                           17.68     
+68       Corn                                     13.55     
+33       French fries                             18.32     
+78       Ground beef meat burger                  11.73     
+2        Hazelnut in black ceramic bowl           27.35     
+87       Sweet fresh stawberry                    29.45     
+1        Homemade bread                           17.48     
+46       Smoothie with chia seeds                 25.26     
+1        Corn                                     13.55     
+2        Plums                                    19.18     
+100      Elotes                                   0.0       
+1        Green smoothie                           17.68     
+2        Corn                                     13.55     
+4        French fries                             18.32     
+64       Ground beef meat burger                  11.73     
+2        Hazelnut in black ceramic bowl           27.35     
+3        Sweet fresh stawberry                    29.45     
+456      Homemade bread                           17.48     
+2        Smoothie with chia seeds                 25.26     
+5        Corn                                     13.55     
+645      Plums                                    19.18     
+-35      Fresh blueberries                        21.01     
+2        Green smoothie                           17.68     
+465      Corn                                     13.55     
+100      Frijoles                                 0.0       
+4        Ground beef meat burger                  11.73     
+1        Hazelnut in black ceramic bowl           27.35     
+131      Sweet fresh stawberry                    29.45     
+9        Homemade bread                           17.48     
+13       Smoothie with chia seeds                 25.26     
+678      Corn                                     13.55     
+334      Plums                                    19.18     
+3445     Fresh blueberries                        21.01     
+-123     Green smoothie                           17.68     
+445      Corn                                     13.55     
+----------------------------------------------------------------------
+Total Cost:                       $165,235.37
+Total Sales Items Processed:      46
+Execution Time:                   0.285488 secs
+----------------------------------------------------------------------
