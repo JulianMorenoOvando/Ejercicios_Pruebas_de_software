@@ -104,7 +104,7 @@ def save_report(report_text, file_path):
     try:
         with open(file_path, "a", encoding="utf-8") as res_file:
             res_file.write(report_text)
-    except Exception as exc:
+    except Exception as exc:  # pylint: disable=broad-except
         print(f"Error saving results to {file_path}: {exc}")
 
 
