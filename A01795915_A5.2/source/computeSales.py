@@ -66,14 +66,14 @@ def calculate_total_sales(catalogue_data, sales_data):
     return total_cost, errors, price_lookup
 
 
-def build_report(sales_data, price_lookup, total_cost, elapsed_time):
+def build_report(sales_data, price_lookup, total_cost, elapsed_time, ticket_data):
     """
     Constructs the human-readable sales report as a string.
     """
     report = []
     width = 70
     report.append("-" * width)
-    report.append("           SALES TOTAL REPORT")
+    report.append("-" * (width//2) + " TICKET: " + ticket_data + "-" * (width//3))
     report.append("-" * width)
     report.append(f"{'Qtty'!s:<8} {'Product'!s:<40} {'Price'!s:<10}")
     report.append("-" * width)
@@ -81,7 +81,7 @@ def build_report(sales_data, price_lookup, total_cost, elapsed_time):
     if isinstance(sales_data, list):
         for sale in sales_data:
             product = sale.get('Product', 'Unknown')
-            price = price_lookup.get(product, 0.0)
+            price = price_lookup.get(product, 'N/A')
             qty = sale.get('Quantity', 0)
             line = f"{qty!s:<8} {product!s:<40} {price!s:<10}"
             report.append(line)
@@ -101,9 +101,9 @@ def save_report(report_text, file_path):
     Saves the report text to the specified file path.
     """
     try:
-        with open(file_path, "w", encoding="utf-8") as res_file:
+        with open(file_path, "a", encoding="utf-8") as res_file:
             res_file.write(report_text)
-    except Exception as exc:  # pylint: disable=broad-except
+    except Exception as exc:
         print(f"Error saving results to {file_path}: {exc}")
 
 
@@ -120,6 +120,7 @@ def main():
     # Load data
     cat_data = load_json_file(sys.argv[1])
     sales_data = load_json_file(sys.argv[2])
+    ticket_data = sys.argv[2].split("/")[-1].split(".")[0]
 
     if cat_data is None or sales_data is None:
         sys.exit(1)
@@ -134,7 +135,7 @@ def main():
     elapsed = time.time() - start_time
 
     # Build and save report
-    report_text = build_report(sales_data, price_map, total_cost, elapsed)
+    report_text = build_report(sales_data, price_map, total_cost, elapsed, ticket_data)
     print(report_text)
     save_report(report_text, "results/SalesResults.txt")
 
