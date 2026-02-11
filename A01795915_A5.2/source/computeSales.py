@@ -26,7 +26,7 @@ def load_json_file(file_path):
     return None
 
 
-def calculate_total_sales(catalogue_data, sales_data):
+def calculate_total_sales(catalogue_data, sales):
     """
     Calculates the total cost for all sales using the price catalogue.
     Returns (total_cost, errors, price_lookup).
@@ -43,8 +43,8 @@ def calculate_total_sales(catalogue_data, sales_data):
     total_cost = 0.0
     errors = []
 
-    if isinstance(sales_data, list):
-        for sale in sales_data:
+    if isinstance(sales, list):
+        for sale in sales:
             product = sale.get("Product")
             quantity = sale.get("Quantity")
 
@@ -66,20 +66,21 @@ def calculate_total_sales(catalogue_data, sales_data):
     return total_cost, errors, price_lookup
 
 
-def build_report(sales_data, price_lookup, total_cost, elapsed_time, ticket_data):
+def build_report(sales, price_lookup, total_cost, elapsed_time, ticket_data):
     """
     Constructs the human-readable sales report as a string.
     """
     report = []
     width = 70
     report.append("-" * width)
-    report.append("-" * (width//2) + " TICKET: " + ticket_data + "-" * (width//3))
+    ticker_header = f" TICKET: {ticket_data} "
+    report.append("-" * (width // 2) + ticker_header + "-" * (width // 3))
     report.append("-" * width)
     report.append(f"{'Qtty'!s:<8} {'Product'!s:<40} {'Price'!s:<10}")
     report.append("-" * width)
 
-    if isinstance(sales_data, list):
-        for sale in sales_data:
+    if isinstance(sales, list):
+        for sale in sales:
             product = sale.get('Product', 'Unknown')
             price = price_lookup.get(product, 'N/A')
             qty = sale.get('Quantity', 0)
@@ -88,7 +89,7 @@ def build_report(sales_data, price_lookup, total_cost, elapsed_time, ticket_data
 
     report.append("-" * width)
     report.append(f"Total Cost:                       ${total_cost:,.2f}")
-    count = len(sales_data) if isinstance(sales_data, list) else 0
+    count = len(sales) if isinstance(sales, list) else 0
     report.append(f"Total Sales Items Processed:      {count}")
     report.append(f"Execution Time:                   {elapsed_time:.6f} secs")
     report.append("-" * width)
@@ -119,14 +120,14 @@ def main():
 
     # Load data
     cat_data = load_json_file(sys.argv[1])
-    sales_data = load_json_file(sys.argv[2])
+    sales = load_json_file(sys.argv[2])
     ticket_data = sys.argv[2].split("/")[-1].split(".")[0]
 
-    if cat_data is None or sales_data is None:
+    if cat_data is None or sales is None:
         sys.exit(1)
 
     # Perform calculations
-    total_cost, errors, price_map = calculate_total_sales(cat_data, sales_data)
+    total_cost, errors, price_map = calculate_total_sales(cat_data, sales)
 
     # Handle errors
     for error in errors:
@@ -135,7 +136,9 @@ def main():
     elapsed = time.time() - start_time
 
     # Build and save report
-    report_text = build_report(sales_data, price_map, total_cost, elapsed, ticket_data)
+    report_text = build_report(
+        sales, price_map, total_cost, elapsed, ticket_data
+    )
     print(report_text)
     save_report(report_text, "results/SalesResults.txt")
 
