@@ -6,11 +6,11 @@ This script demonstrates the basic functionality of the system.
 
 import sys
 import os
+from reservation import Customer, Hotel, Reservation
 
 # Source directory to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'A01795915_A6.2/results'))
-
-from reservation import Customer, Hotel, Reservation
+sys.path.insert(0, os.path.join(os.path.dirname(__file__),
+                                'A01795915_A6.2/results'))
 
 
 def print_section(title):
@@ -20,16 +20,8 @@ def print_section(title):
     print(f"{'='*60}")
 
 
-def demo():
-    """Run a demonstration of the reservation system."""
-    print_section("Hotel Reservation System Demo")
-
-    # Clean up any existing test data
-    for file in ["customers.json", "hotels.json", "reservations.json"]:
-        if os.path.exists(file):
-            os.remove(file)
-
-    # Create customers
+def demo_customers():
+    """Demonstrate customer creation and management."""
     print_section("Creating Customers")
     customer1 = Customer.create_customer(
         "C001",
@@ -51,7 +43,9 @@ def demo():
     print_section("Customer Information")
     print(Customer.display_customer_information("C001"))
 
-    # Create hotels
+
+def demo_hotels():
+    """Demonstrate hotel creation and management."""
     print_section("Creating Hotels")
     hotel1 = Hotel.create_hotel(
         "H001",
@@ -73,7 +67,9 @@ def demo():
     print_section("Hotel Information")
     print(Hotel.display_hotel_information("H001"))
 
-    # Create reservations
+
+def demo_reservations():
+    """Demonstrate reservation creation."""
     print_section("Creating Reservations")
     reservation1 = Reservation.create_reservation(
         "R001",
@@ -103,6 +99,9 @@ def demo():
     print_section("Hotel Availability After Reservations")
     print(Hotel.display_hotel_information("H001"))
 
+
+def demo_modifications():
+    """Demonstrate modification and cancellation operations."""
     # Modify customer information
     print_section("Modifying Customer Information")
     Customer.modify_customer_information(
@@ -129,7 +128,9 @@ def demo():
         print("\nHotel availability after cancellation:")
         print(Hotel.display_hotel_information("H001"))
 
-    # Test error handling
+
+def demo_error_handling():
+    """Demonstrate error handling capabilities."""
     print_section("Testing Error Handling")
 
     print("\n1. Attempting to create reservation with non-existent customer:")
@@ -161,7 +162,9 @@ def demo():
     if not result:
         print(" Error handled correctly (returned False)")
 
-    # Clean up
+
+def demo_cleanup():
+    """Clean up demo data."""
     print_section("Cleanup")
     Customer.delete_customer("C001")
     # Customer.delete_customer("C002")
@@ -171,6 +174,24 @@ def demo():
     # Hotel.delete_hotel("H002")
     # Hotel.delete_hotel("H003")
     print(" Deleted hotels")
+
+
+def demo():
+    """Run a demonstration of the reservation system."""
+    print_section("Hotel Reservation System Demo")
+
+    # Clean up any existing test data
+    for file in ["customers.json", "hotels.json", "reservations.json"]:
+        if os.path.exists(file):
+            os.remove(file)
+
+    # Run demonstration sections
+    demo_customers()
+    demo_hotels()
+    demo_reservations()
+    demo_modifications()
+    demo_error_handling()
+    demo_cleanup()
 
     print_section("Demo Complete!")
     print("All functionality demonstrated successfully.")
