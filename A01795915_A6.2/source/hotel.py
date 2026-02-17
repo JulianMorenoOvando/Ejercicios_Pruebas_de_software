@@ -196,18 +196,17 @@ class Hotel:
         if not os.path.exists(cls.DATA_FILE):
             return {}
         try:
-            with open(cls.DATA_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
-            print(f"Error loading hotels file: {e}")
+            with open(cls.DATA_FILE, 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except (json.JSONDecodeError, IOError) as error:
+            print(f"Error loading hotels file: {error}")
             return {}
 
     @classmethod
     def _save_all_hotels(cls, hotels: Dict) -> None:
         """Save all hotels to file."""
         try:
-            with open(cls.DATA_FILE, 'w', encoding='utf-8') as f:
-                json.dump(hotels, f, indent=2)
-        except IOError as e:
-            print(f"Error saving hotels file: {e}")
-
+            with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:
+                json.dump(hotels, file, indent=2)
+        except IOError as error:
+            print(f"Error saving hotels file: {error}")
