@@ -2,7 +2,8 @@
 Hotel Reservation System Module.
 Hotel Class
 This module implements a hotel class for the hotel reservation system.
-It provides persistent storage using JSON files and includes error handling for invalid data.
+It provides persistent storage using JSON files and includes error
+handling for invalid data.
 """
 
 import json
@@ -13,7 +14,8 @@ from typing import Dict, Optional
 class Hotel:
     """Represents a hotel in the reservation system."""
 
-    DATA_FILE = os.path.join(os.path.dirname(__file__), "../tests/hotels.json")
+    DATA_FILE = os.path.join(os.path.dirname(__file__),
+                             "../tests/hotels.json")
 
     def __init__(self, hotel_id: str, name: str, location: str,
                  total_rooms: int):
@@ -119,9 +121,9 @@ class Hotel:
 
     @classmethod
     def modify_hotel_information(cls, hotel_id: str,
-                                  name: Optional[str] = None,
-                                  location: Optional[str] = None,
-                                  total_rooms: Optional[int] = None) -> bool:
+                                 name: Optional[str] = None,
+                                 location: Optional[str] = None,
+                                 total_rooms: Optional[int] = None) -> bool:
         """
         Modify hotel information.
 
