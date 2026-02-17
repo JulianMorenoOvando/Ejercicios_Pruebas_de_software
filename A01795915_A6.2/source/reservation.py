@@ -17,6 +17,7 @@ class Reservation:
 
     DATA_FILE = os.path.join(os.path.dirname(__file__), "../tests/reservations.json")
 
+    # pylint: disable=too-many-arguments
     def __init__(self, reservation_id: str, customer_id: str,
                  hotel_id: str, check_in: str, check_out: str):
         """
@@ -61,6 +62,7 @@ class Reservation:
         return reservation
 
     @classmethod
+    # pylint: disable=too-many-arguments
     def create_reservation(cls, reservation_id: str, customer_id: str,
                            hotel_id: str, check_in: str,
                            check_out: str) -> Optional['Reservation']:
@@ -78,8 +80,7 @@ class Reservation:
             Reservation: The created reservation or None if failed
         """
         # Verify customer exists
-        customers = Customer._load_all_customers()
-        if customer_id not in customers:
+        if not Customer.customer_exists(customer_id):
             print(f"Error: Customer {customer_id} does not exist")
             return None
 
@@ -124,17 +125,17 @@ class Reservation:
         if not os.path.exists(cls.DATA_FILE):
             return {}
         try:
-            with open(cls.DATA_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except (json.JSONDecodeError, IOError) as e:
-            print(f"Error loading reservations file: {e}")
+            with open(cls.DATA_FILE, 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except (json.JSONDecodeError, IOError) as error:
+            print(f"Error loading reservations file: {error}")
             return {}
 
     @classmethod
     def _save_all_reservations(cls, reservations: Dict) -> None:
         """Save all reservations to file."""
         try:
-            with open(cls.DATA_FILE, 'w', encoding='utf-8') as f:
-                json.dump(reservations, f, indent=2)
-        except IOError as e:
-            print(f"Error saving reservations file: {e}")
+            with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:
+                json.dump(reservations, file, indent=2)
+        except IOError as error:
+            print(f"Error saving reservations file: {error}")

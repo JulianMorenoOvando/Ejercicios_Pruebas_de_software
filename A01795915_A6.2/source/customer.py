@@ -142,6 +142,20 @@ class Customer:
         return False
 
     @classmethod
+    def customer_exists(cls, customer_id: str) -> bool:
+        """
+        Check if a customer exists in the system.
+
+        Args:
+            customer_id: ID of the customer to check
+
+        Returns:
+            bool: True if customer exists, False otherwise
+        """
+        customers = cls._load_all_customers()
+        return customer_id in customers
+
+    @classmethod
     def _load_all_customers(cls) -> Dict:
         """Load all customers from file."""
         if not os.path.exists(cls.DATA_FILE):
