@@ -12,10 +12,12 @@ from typing import Dict, Optional
 from hotel import Hotel
 from customer import Customer
 
-class Reservation:
-    """Represents a reservation in the hotel system."""
 
-    DATA_FILE = os.path.join(os.path.dirname(__file__), "../tests/reservations.json")
+class Reservation:
+    """Represents a reservation action in the hotel system."""
+
+    DATA_FILE = os.path.join(os.path.dirname(__file__),
+                             "../tests/reservations.json")
 
     # pylint: disable=too-many-arguments
     def __init__(self, reservation_id: str, customer_id: str,
