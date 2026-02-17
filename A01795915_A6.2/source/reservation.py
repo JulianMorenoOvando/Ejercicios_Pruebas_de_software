@@ -15,7 +15,7 @@ from customer import Customer
 class Reservation:
     """Represents a reservation in the hotel system."""
 
-    DATA_FILE = "reservations.json"
+    DATA_FILE = os.path.join(os.path.dirname(__file__), "../tests/reservations.json")
 
     def __init__(self, reservation_id: str, customer_id: str,
                  hotel_id: str, check_in: str, check_out: str):

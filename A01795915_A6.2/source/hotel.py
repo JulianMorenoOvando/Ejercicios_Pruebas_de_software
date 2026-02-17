@@ -13,7 +13,7 @@ from typing import Dict, Optional
 class Hotel:
     """Represents a hotel in the reservation system."""
 
-    DATA_FILE = "hotels.json"
+    DATA_FILE = os.path.join(os.path.dirname(__file__), "../tests/hotels.json")
 
     def __init__(self, hotel_id: str, name: str, location: str,
                  total_rooms: int):

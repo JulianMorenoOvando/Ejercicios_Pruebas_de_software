@@ -14,7 +14,7 @@ from typing import Dict, Optional
 class Customer:
     """Represents a customer in the hotel reservation system."""
 
-    DATA_FILE = "customers.json"
+    DATA_FILE = os.path.join(os.path.dirname(__file__), "../tests/customers.json")
 
     def __init__(self, customer_id: str, name: str, email: str,
                  phone: str):

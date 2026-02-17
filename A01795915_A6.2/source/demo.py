@@ -164,12 +164,12 @@ def demo():
     # Clean up
     print_section("Cleanup")
     Customer.delete_customer("C001")
-    Customer.delete_customer("C002")
+    # Customer.delete_customer("C002")
     print(" Deleted customers")
 
     Hotel.delete_hotel("H001")
-    Hotel.delete_hotel("H002")
-    Hotel.delete_hotel("H003")
+    # Hotel.delete_hotel("H002")
+    # Hotel.delete_hotel("H003")
     print(" Deleted hotels")
 
     print_section("Demo Complete!")

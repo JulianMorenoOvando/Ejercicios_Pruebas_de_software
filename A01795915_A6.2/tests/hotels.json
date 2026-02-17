@@ -1,0 +1,16 @@
+{
+  "H002": {
+    "hotel_id": "H002",
+    "name": "Seaside Resort",
+    "location": "Miami, FL",
+    "total_rooms": 200,
+    "available_rooms": 199
+  },
+  "H003": {
+    "hotel_id": "H003",
+    "name": "Tiny Hotel",
+    "location": "Boston, MA",
+    "total_rooms": 0,
+    "available_rooms": 0
+  }
+}
