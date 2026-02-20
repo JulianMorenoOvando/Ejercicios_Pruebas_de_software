@@ -348,5 +348,161 @@ class TestHotel(unittest.TestCase):
                 mock_print.assert_called()
 
 
+class TestReservation(unittest.TestCase):
+    """Test cases for the Reservation class."""
+
+    def setUp(self):
+        """Set up test fixtures before each test method."""
+        self.test_reservation_file = "test_reservations.json"
+        self.test_customer_file = "test_customers.json"
+        self.test_hotel_file = "test_hotels.json"
+
+        Reservation.DATA_FILE = self.test_reservation_file
+        Customer.DATA_FILE = self.test_customer_file
+        Hotel.DATA_FILE = self.test_hotel_file
+
+        # Clean up test files
+        for file in [self.test_reservation_file, self.test_customer_file,
+                     self.test_hotel_file]:
+            if os.path.exists(file):
+                os.remove(file)
+
+        # Create test customer and hotel
+        Customer.create_customer("C001", "Juan Perez", "juan@gmail.com",
+                                 "123-456-7890")
+        Hotel.create_hotel("H001", "Grand Hotel", "New York", 100)
+
+    def tearDown(self):
+        """Clean up after each test method."""
+        for file in [self.test_reservation_file, self.test_customer_file,
+                     self.test_hotel_file]:
+            if os.path.exists(file):
+                os.remove(file)
+
+    def test_reservation_initialization(self):
+        """Test reservation object initialization."""
+        reservation = Reservation("R001", "C001", "H001",
+                                  "2026-03-01", "2026-03-05")
+        self.assertEqual(reservation.reservation_id, "R001")
+        self.assertEqual(reservation.customer_id, "C001")
+        self.assertEqual(reservation.hotel_id, "H001")
+        self.assertEqual(reservation.check_in, "2026-03-01")
+        self.assertEqual(reservation.check_out, "2026-03-05")
+        self.assertEqual(reservation.status, "active")
+
+    def test_reservation_to_dict(self):
+        """Test converting reservation to dictionary."""
+        reservation = Reservation("R001", "C001", "H001",
+                                  "2026-03-01", "2026-03-05")
+        res_dict = reservation.to_dict()
+        self.assertEqual(res_dict["reservation_id"], "R001")
+        self.assertEqual(res_dict["customer_id"], "C001")
+        self.assertEqual(res_dict["status"], "active")
+
+    def test_reservation_from_dict(self):
+        """Test creating reservation from dictionary."""
+        data = {
+            "reservation_id": "R001",
+            "customer_id": "C001",
+            "hotel_id": "H001",
+            "check_in": "2026-03-01",
+            "check_out": "2026-03-05",
+            "status": "active"
+        }
+        reservation = Reservation.from_dict(data)
+        self.assertEqual(reservation.reservation_id, "R001")
+        self.assertEqual(reservation.status, "active")
+
+    def test_reservation_from_dict_no_status(self):
+        """Test creating reservation from dict without status field."""
+        data = {
+            "reservation_id": "R001",
+            "customer_id": "C001",
+            "hotel_id": "H001",
+            "check_in": "2026-03-01",
+            "check_out": "2026-03-05"
+        }
+        reservation = Reservation.from_dict(data)
+        self.assertEqual(reservation.status, "active")
+
+    def test_create_reservation(self):
+        """Test creating a reservation."""
+        reservation = Reservation.create_reservation(
+            "R001", "C001", "H001", "2026-03-01", "2026-03-05"
+        )
+        self.assertIsNotNone(reservation)
+        self.assertTrue(os.path.exists(self.test_reservation_file))
+
+        # Verify data was saved correctly
+        with open(self.test_reservation_file, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            self.assertIn("R001", data)
+            self.assertEqual(data["R001"]["customer_id"], "C001")
+
+    def test_create_reservation_nonexistent_customer(self):
+        """Test creating reservation with nonexistent customer."""
+        with patch('builtins.print') as mock_print:
+            reservation = Reservation.create_reservation(
+                "R001", "C999", "H001", "2026-03-01", "2026-03-05"
+            )
+            self.assertIsNone(reservation)
+            mock_print.assert_called()
+
+    def test_create_reservation_no_rooms_available(self):
+        """Test creating reservation when no rooms available."""
+        Hotel.create_hotel("H002", "Small Hotel", "Boston", 0)
+        with patch('builtins.print') as mock_print:
+            reservation = Reservation.create_reservation(
+                "R001", "C001", "H002", "2026-03-01", "2026-03-05"
+            )
+            self.assertIsNone(reservation)
+            mock_print.assert_called()
+
+    def test_cancel_reservation(self):
+        """Test cancelling a reservation."""
+        Reservation.create_reservation(
+            "R001", "C001", "H001", "2026-03-01", "2026-03-05"
+        )
+        result = Reservation.cancel_reservation("R001")
+        self.assertTrue(result)
+
+        # Verify status changed to cancelled
+        with open(self.test_reservation_file, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            self.assertEqual(data["R001"]["status"], "cancelled")
+
+    def test_cancel_nonexistent_reservation(self):
+        """Test cancelling a reservation that doesn't exist."""
+        result = Reservation.cancel_reservation("R999")
+        self.assertFalse(result)
+
+    def test_cancel_already_cancelled_reservation(self):
+        """Test cancelling an already cancelled reservation."""
+        Reservation.create_reservation(
+            "R001", "C001", "H001", "2026-03-01", "2026-03-05"
+        )
+        Reservation.cancel_reservation("R001")
+        result = Reservation.cancel_reservation("R001")
+        self.assertFalse(result)
+
+    def test_load_reservations_invalid_json(self):
+        """Test loading reservations with invalid JSON."""
+        with open(self.test_reservation_file, 'w', encoding='utf-8') as file:
+            file.write("invalid json content")
+
+        with patch('builtins.print') as mock_print:
+            reservations = Reservation._load_all_reservations()
+            self.assertEqual(reservations, {})
+            mock_print.assert_called()
+
+    @staticmethod
+    def test_save_reservations_io_error():
+        """Test handling IO error when saving reservations."""
+        with patch('builtins.open', side_effect=IOError("Test error")):
+            with patch('builtins.print') as mock_print:
+                Reservation._save_all_reservations({"R001": {}})
+                mock_print.assert_called()
+
+
 if __name__ == '__main__':
     unittest.main()
