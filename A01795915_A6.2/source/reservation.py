@@ -19,7 +19,6 @@ class Reservation:
     DATA_FILE = os.path.join(os.path.dirname(__file__),
                              "../tests/reservations.json")
 
-    # pylint: disable=too-many-arguments
     def __init__(self, reservation_id: str, customer_id: str,
                  hotel_id: str, check_in: str, check_out: str):
         """
@@ -64,7 +63,7 @@ class Reservation:
         return reservation
 
     @classmethod
-    # pylint: disable=too-many-arguments
+    
     def create_reservation(cls, reservation_id: str, customer_id: str,
                            hotel_id: str, check_in: str,
                            check_out: str) -> Optional['Reservation']:
@@ -93,9 +92,9 @@ class Reservation:
 
         reservation = cls(reservation_id, customer_id, hotel_id,
                           check_in, check_out)
-        reservations = cls._load_all_reservations()
+        reservations = cls.load_all_reservations()
         reservations[reservation_id] = reservation.to_dict()
-        cls._save_all_reservations(reservations)
+        cls.save_all_reservations(reservations)
         return reservation
 
     @classmethod
@@ -109,7 +108,7 @@ class Reservation:
         Returns:
             bool: True if cancelled successfully, False otherwise
         """
-        reservations = cls._load_all_reservations()
+        reservations = cls.load_all_reservations()
         if reservation_id in reservations:
             reservation_data = reservations[reservation_id]
             if reservation_data["status"] == "active":
@@ -117,12 +116,12 @@ class Reservation:
                 Hotel.cancel_reservation(reservation_data["hotel_id"])
                 reservation_data["status"] = "cancelled"
                 reservations[reservation_id] = reservation_data
-                cls._save_all_reservations(reservations)
+                cls.save_all_reservations(reservations)
                 return True
         return False
 
     @classmethod
-    def _load_all_reservations(cls) -> Dict:
+    def load_all_reservations(cls) -> Dict:
         """Load all reservations from file."""
         if not os.path.exists(cls.DATA_FILE):
             return {}
@@ -134,7 +133,7 @@ class Reservation:
             return {}
 
     @classmethod
-    def _save_all_reservations(cls, reservations: Dict) -> None:
+    def save_all_reservations(cls, reservations: Dict) -> None:
         """Save all reservations to file."""
         try:
             with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:

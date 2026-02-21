@@ -5,6 +5,8 @@ This module contains comprehensive unit tests for the Customer, Hotel,
 and Reservation classes to ensure proper functionality.
 """
 
+# pylint: disable=too-many-public-methods
+
 import unittest
 import os
 import json
@@ -14,7 +16,7 @@ from reservation import Customer, Hotel, Reservation
 
 # Add source directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__),
-                                 '..', 'source'))
+                '..', 'source'))
 
 
 class TestCustomer(unittest.TestCase):
@@ -132,7 +134,7 @@ class TestCustomer(unittest.TestCase):
 
     def test_load_customers_file_not_exists(self):
         """Test loading customers when file doesn't exist."""
-        customers = Customer._load_all_customers()
+        customers = Customer.load_all_customers()
         self.assertEqual(customers, {})
 
     def test_load_customers_invalid_json(self):
@@ -141,7 +143,7 @@ class TestCustomer(unittest.TestCase):
             file.write("invalid json content")
 
         with patch('builtins.print') as mock_print:
-            customers = Customer._load_all_customers()
+            customers = Customer.load_all_customers()
             self.assertEqual(customers, {})
             mock_print.assert_called()
 
@@ -150,7 +152,7 @@ class TestCustomer(unittest.TestCase):
         """Test handling IO error when saving customers."""
         with patch('builtins.open', side_effect=IOError("Test error")):
             with patch('builtins.print') as mock_print:
-                Customer._save_all_customers({"C001": {}})
+                Customer.save_all_customers({"C001": {}})
                 mock_print.assert_called()
 
 
@@ -335,7 +337,7 @@ class TestHotel(unittest.TestCase):
             file.write("invalid json content")
 
         with patch('builtins.print') as mock_print:
-            hotels = Hotel._load_all_hotels()
+            hotels = Hotel.load_all_hotels()
             self.assertEqual(hotels, {})
             mock_print.assert_called()
 
@@ -344,7 +346,7 @@ class TestHotel(unittest.TestCase):
         """Test handling IO error when saving hotels."""
         with patch('builtins.open', side_effect=IOError("Test error")):
             with patch('builtins.print') as mock_print:
-                Hotel._save_all_hotels({"H001": {}})
+                Hotel.save_all_hotels({"H001": {}})
                 mock_print.assert_called()
 
 
@@ -491,7 +493,7 @@ class TestReservation(unittest.TestCase):
             file.write("invalid json content")
 
         with patch('builtins.print') as mock_print:
-            reservations = Reservation._load_all_reservations()
+            reservations = Reservation.load_all_reservations()
             self.assertEqual(reservations, {})
             mock_print.assert_called()
 
@@ -500,7 +502,7 @@ class TestReservation(unittest.TestCase):
         """Test handling IO error when saving reservations."""
         with patch('builtins.open', side_effect=IOError("Test error")):
             with patch('builtins.print') as mock_print:
-                Reservation._save_all_reservations({"R001": {}})
+                Reservation.save_all_reservations({"R001": {}})
                 mock_print.assert_called()
 
 

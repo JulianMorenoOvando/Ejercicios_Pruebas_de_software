@@ -69,9 +69,9 @@ class Customer:
             Customer: The created customer instance
         """
         customer = cls(customer_id, name, email, phone)
-        customers = cls._load_all_customers()
+        customers = cls.load_all_customers()
         customers[customer_id] = customer.to_dict()
-        cls._save_all_customers(customers)
+        cls.save_all_customers(customers)
         return customer
 
     @classmethod
@@ -85,10 +85,10 @@ class Customer:
         Returns:
             bool: True if deleted successfully, False otherwise
         """
-        customers = cls._load_all_customers()
+        customers = cls.load_all_customers()
         if customer_id in customers:
             del customers[customer_id]
-            cls._save_all_customers(customers)
+            cls.save_all_customers(customers)
             return True
         return False
 
@@ -103,7 +103,7 @@ class Customer:
         Returns:
             str: Formatted customer information or None if not found
         """
-        customers = cls._load_all_customers()
+        customers = cls.load_all_customers()
         if customer_id in customers:
             customer_data = customers[customer_id]
             return (
@@ -131,7 +131,7 @@ class Customer:
         Returns:
             bool: True if modified successfully, False otherwise
         """
-        customers = cls._load_all_customers()
+        customers = cls.load_all_customers()
         if customer_id in customers:
             if name is not None:
                 customers[customer_id]["name"] = name
@@ -139,7 +139,7 @@ class Customer:
                 customers[customer_id]["email"] = email
             if phone is not None:
                 customers[customer_id]["phone"] = phone
-            cls._save_all_customers(customers)
+            cls.save_all_customers(customers)
             return True
         return False
 
@@ -154,11 +154,11 @@ class Customer:
         Returns:
             bool: True if customer exists, False otherwise
         """
-        customers = cls._load_all_customers()
+        customers = cls.load_all_customers()
         return customer_id in customers
 
     @classmethod
-    def _load_all_customers(cls) -> Dict:
+    def load_all_customers(cls) -> Dict:
         """Load all customers from file."""
         if not os.path.exists(cls.DATA_FILE):
             return {}
@@ -170,7 +170,7 @@ class Customer:
             return {}
 
     @classmethod
-    def _save_all_customers(cls, customers: Dict) -> None:
+    def save_all_customers(cls, customers: Dict) -> None:
         """Save all customers to file."""
         try:
             with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:
@@ -240,9 +240,9 @@ class Hotel:
             Hotel: The created hotel instance
         """
         hotel = cls(hotel_id, name, location, total_rooms)
-        hotels = cls._load_all_hotels()
+        hotels = cls.load_all_hotels()
         hotels[hotel_id] = hotel.to_dict()
-        cls._save_all_hotels(hotels)
+        cls.save_all_hotels(hotels)
         return hotel
 
     @classmethod
@@ -256,10 +256,10 @@ class Hotel:
         Returns:
             bool: True if deleted successfully, False otherwise
         """
-        hotels = cls._load_all_hotels()
+        hotels = cls.load_all_hotels()
         if hotel_id in hotels:
             del hotels[hotel_id]
-            cls._save_all_hotels(hotels)
+            cls.save_all_hotels(hotels)
             return True
         return False
 
@@ -274,7 +274,7 @@ class Hotel:
         Returns:
             str: Formatted hotel information or None if not found
         """
-        hotels = cls._load_all_hotels()
+        hotels = cls.load_all_hotels()
         if hotel_id in hotels:
             hotel_data = hotels[hotel_id]
             return (
@@ -303,7 +303,7 @@ class Hotel:
         Returns:
             bool: True if modified successfully, False otherwise
         """
-        hotels = cls._load_all_hotels()
+        hotels = cls.load_all_hotels()
         if hotel_id in hotels:
             if name is not None:
                 hotels[hotel_id]["name"] = name
@@ -315,7 +315,7 @@ class Hotel:
                 difference = total_rooms - old_total
                 hotels[hotel_id]["total_rooms"] = total_rooms
                 hotels[hotel_id]["available_rooms"] = available + difference
-            cls._save_all_hotels(hotels)
+            cls.save_all_hotels(hotels)
             return True
         return False
 
@@ -330,11 +330,11 @@ class Hotel:
         Returns:
             bool: True if room reserved successfully, False otherwise
         """
-        hotels = cls._load_all_hotels()
+        hotels = cls.load_all_hotels()
         if hotel_id in hotels:
             if hotels[hotel_id]["available_rooms"] > 0:
                 hotels[hotel_id]["available_rooms"] -= 1
-                cls._save_all_hotels(hotels)
+                cls.save_all_hotels(hotels)
                 return True
         return False
 
@@ -349,18 +349,18 @@ class Hotel:
         Returns:
             bool: True if reservation cancelled successfully, False otherwise
         """
-        hotels = cls._load_all_hotels()
+        hotels = cls.load_all_hotels()
         if hotel_id in hotels:
             total = hotels[hotel_id]["total_rooms"]
             available = hotels[hotel_id]["available_rooms"]
             if available < total:
                 hotels[hotel_id]["available_rooms"] += 1
-                cls._save_all_hotels(hotels)
+                cls.save_all_hotels(hotels)
                 return True
         return False
 
     @classmethod
-    def _load_all_hotels(cls) -> Dict:
+    def load_all_hotels(cls) -> Dict:
         """Load all hotels from file."""
         if not os.path.exists(cls.DATA_FILE):
             return {}
@@ -372,7 +372,7 @@ class Hotel:
             return {}
 
     @classmethod
-    def _save_all_hotels(cls, hotels: Dict) -> None:
+    def save_all_hotels(cls, hotels: Dict) -> None:
         """Save all hotels to file."""
         try:
             with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:
