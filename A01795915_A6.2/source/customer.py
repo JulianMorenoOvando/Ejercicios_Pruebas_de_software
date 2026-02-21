@@ -7,9 +7,10 @@ for invalid data.
 
 """
 
-import json
 import os
 from typing import Dict, Optional
+
+from data_manager import DataManager
 
 
 class Customer:
@@ -159,23 +160,10 @@ class Customer:
 
     @classmethod
     def load_all_customers(cls) -> Dict:
-        """Load all customers from file."""
-        if not os.path.exists(cls.DATA_FILE):
-            return {}
-        try:
-            with open(cls.DATA_FILE, 'r', encoding='utf-8') as file:
-                return json.load(file)
-        except (json.JSONDecodeError, IOError) as error:
-            print(f"Error loading customers file: {error}")
-            return {}
+        """Load customers from file."""
+        return DataManager.load_data(cls.DATA_FILE, "customers file")
 
     @classmethod
     def save_all_customers(cls, customers: Dict) -> None:
         """Save all customers to file."""
-        try:
-            with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:
-                json.dump(customers, file, indent=2)
-        except IOError as error:
-            print(f"Error saving customers file: {error}")
-
-
+        DataManager.save_data(cls.DATA_FILE, customers, "customers file")

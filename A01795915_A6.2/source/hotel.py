@@ -6,9 +6,10 @@ It provides persistent storage using JSON files and includes error
 handling for invalid data.
 """
 
-import json
 import os
 from typing import Dict, Optional
+
+from data_manager import DataManager
 
 
 class Hotel:
@@ -195,20 +196,9 @@ class Hotel:
     @classmethod
     def load_all_hotels(cls) -> Dict:
         """Load all hotels from file."""
-        if not os.path.exists(cls.DATA_FILE):
-            return {}
-        try:
-            with open(cls.DATA_FILE, 'r', encoding='utf-8') as file:
-                return json.load(file)
-        except (json.JSONDecodeError, IOError) as error:
-            print(f"Error loading hotels file: {error}")
-            return {}
+        return DataManager.load_data(cls.DATA_FILE, "hotels file")
 
     @classmethod
     def save_all_hotels(cls, hotels: Dict) -> None:
         """Save all hotels to file."""
-        try:
-            with open(cls.DATA_FILE, 'w', encoding='utf-8') as file:
-                json.dump(hotels, file, indent=2)
-        except IOError as error:
-            print(f"Error saving hotels file: {error}")
+        DataManager.save_data(cls.DATA_FILE, hotels, "hotels file")
