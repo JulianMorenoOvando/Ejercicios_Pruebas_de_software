@@ -63,7 +63,6 @@ class Reservation:
         return reservation
 
     @classmethod
-    
     def create_reservation(cls, reservation_id: str, customer_id: str,
                            hotel_id: str, check_in: str,
                            check_out: str) -> Optional['Reservation']:
