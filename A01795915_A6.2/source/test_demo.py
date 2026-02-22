@@ -162,6 +162,21 @@ def demo_error_handling():
     if not result:
         print(" Error handled correctly (returned False)")
 
+    print("\n4. Attempting to display information for non-existent customer:")
+    result = Customer.display_customer_information("C999")
+    if result is None:
+        print(" Error handled correctly (returned None)")
+
+    print("\n5. Attempting to modify information for non-existent hotel:")
+    result = Hotel.modify_hotel_information("H999", name="Ghost Hotel")
+    if not result:
+        print(" Error handled correctly (returned False)")
+
+    print("\n6. Attempting to delete non-existent hotel:")
+    result = Hotel.delete_hotel("H999")
+    if not result:
+        print(" Error handled correctly (returned False)")
+
 
 def demo_cleanup():
     """Clean up demo data."""
