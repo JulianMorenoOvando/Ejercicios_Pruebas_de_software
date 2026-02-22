@@ -1,0 +1,119 @@
+
+============================================================
+Hotel Reservation System Demo
+============================================================
+
+============================================================
+Creating Customers
+============================================================
+ Created customer: Juan Perez
+ Created customer: Maria Lopez
+
+============================================================
+Customer Information
+============================================================
+Customer ID: C001
+Name: Juan Perez
+Email: juan.perez@gmail.com
+Phone: 555-0101
+
+============================================================
+Creating Hotels
+============================================================
+ Created hotel: Grand Plaza Hotel (150 rooms)
+ Created hotel: Seaside Resort (200 rooms)
+
+============================================================
+Hotel Information
+============================================================
+Hotel ID: H001
+Name: Grand Plaza Hotel
+Location: New York, NY
+Total Rooms: 150
+Available Rooms: 150
+
+============================================================
+Creating Reservations
+============================================================
+ Created reservation R001
+  Customer: C001
+  Hotel: H001
+  Check-in: 2026-03-15
+  Check-out: 2026-03-20
+ Created reservation R002
+
+============================================================
+Hotel Availability After Reservations
+============================================================
+Hotel ID: H001
+Name: Grand Plaza Hotel
+Location: New York, NY
+Total Rooms: 150
+Available Rooms: 149
+
+============================================================
+Modifying Customer Information
+============================================================
+ Updated customer C001
+Customer ID: C001
+Name: Juan Perez
+Email: juan.perez.new@email.com
+Phone: 555-9999
+
+============================================================
+Modifying Hotel Information
+============================================================
+ Updated hotel H001
+Hotel ID: H001
+Name: Grand Plaza Hotel & Spa
+Location: New York, NY
+Total Rooms: 150
+Available Rooms: 149
+
+============================================================
+Cancelling Reservation
+============================================================
+ Cancelled reservation R001
+
+Hotel availability after cancellation:
+Hotel ID: H001
+Name: Grand Plaza Hotel & Spa
+Location: New York, NY
+Total Rooms: 150
+Available Rooms: 150
+
+============================================================
+Testing Error Handling
+============================================================
+
+1. Attempting to create reservation with non-existent customer:
+Error: Customer C999 does not exist
+ Error handled correctly
+
+2. Attempting to create reservation with no available rooms:
+Error: No rooms available at hotel H003
+ Error handled correctly
+
+3. Attempting to delete non-existent customer:
+ Error handled correctly (returned False)
+
+4. Attempting to display information for non-existent customer:
+ Error handled correctly (returned None)
+
+5. Attempting to modify information for non-existent hotel:
+ Error handled correctly (returned False)
+
+6. Attempting to delete non-existent hotel:
+ Error handled correctly (returned False)
+
+============================================================
+Cleanup
+============================================================
+ Deleted customers
+ Deleted hotels
+
+============================================================
+Demo Complete!
+============================================================
+All functionality demonstrated successfully.
+Data files created: customers.json, hotels.json, reservations.json
